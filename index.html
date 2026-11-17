@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Henda Abdelhamid — Web Developer</title>
+  <meta name="description" content="Henda Abdelhamid, freelance web developer. Projects, services and contact." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #07080a;
+      --surface: #0f1114;
+      --line: rgba(237, 237, 232, 0.12);
+      --text: #ededE8;
+      --muted: #9a9ca3;
+      --accent: #c6ff3d;
+      --font-display: "Space Grotesk", system-ui, sans-serif;
+      --font-body: "Inter", system-ui, sans-serif;
+      --pad: clamp(1.25rem, 5vw, 4rem);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+
+    /* Ambient cursor glow */
+    .glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: radial-gradient(600px circle at var(--x, 50%) var(--y, 30%), rgba(198, 255, 61, 0.07), transparent 60%);
+      z-index: 0;
+    }
+
+    header.nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem var(--pad);
+      z-index: 10;
+      mix-blend-mode: difference;
+    }
+    .logo { font-family: var(--font-display); font-weight: 700; letter-spacing: -0.02em; text-decoration: none; }
+    nav ul { display: flex; gap: clamp(1rem, 3vw, 2.5rem); list-style: none; }
+    nav a {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    nav a:hover { opacity: 1; }
+
+    main { position: relative; z-index: 1; }
+
+    section { padding: clamp(6rem, 14vw, 10rem) var(--pad); min-height: 80vh; }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 8rem;
+    }
+    .eyebrow {
+      font-family: var(--font-display);
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      font-size: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3rem, 11vw, 10rem);
+      line-height: 0.92;
+      letter-spacing: -0.04em;
+    }
+    .hero h1 span { display: block; color: transparent; -webkit-text-stroke: 1px var(--text); }
+    .hero p {
+      margin-top: 2.5rem;
+      max-width: 38ch;
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      color: var(--muted);
+    }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-top: 2.5rem;
+      padding: 0.9rem 1.5rem;
+      background: var(--accent);
+      color: #0b0c0e;
+      font-family: var(--font-display);
+      font-weight: 500;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(198, 255, 61, 0.25); }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 500;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+    }
+    .section-title small {
+      display: block;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      font-family: var(--font-display);
+    }
+
+    /* Projects */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      border-radius: 18px;
+      padding: 2rem;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .card:hover { border-color: rgba(198, 255, 61, 0.4); transform: translateY(-4px); }
+    .card .index { font-family: var(--font-display); color: var(--muted); font-size: 0.85rem; }
+    .card h3 { font-family: var(--font-display); font-weight: 500; font-size: 1.4rem; margin-top: 1rem; }
+    .card p { color: var(--muted); margin-top: 0.75rem; }
+    .card.placeholder { border-style: dashed; }
+
+    /* Services */
+    .services { list-style: none; border-top: 1px solid var(--line); }
+    .services li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 2rem;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+    .services .num { font-family: var(--font-display); color: var(--accent); font-size: 0.9rem; }
+    .services h3 { font-family: var(--font-display); font-weight: 500; font-size: clamp(1.3rem, 2.5vw, 2rem); }
+    .services p { color: var(--muted); margin-top: 0.4rem; }
+
+    /* About */
+    .about { display: grid; grid-template-columns: 1fr 1.2fr; gap: clamp(2rem, 6vw, 6rem); align-items: start; }
+    .about .big {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+    .about p + p { margin-top: 1.25rem; }
+    .about .body p { color: var(--muted); }
+    .stack { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .stack span {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+
+    /* Contact */
+    .contact { text-align: left; }
+    .contact h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(3rem, 9vw, 8rem);
+      letter-spacing: -0.04em;
+      line-height: 0.95;
+    }
+    .contact a.mail {
+      display: inline-block;
+      margin-top: 2.5rem;
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid currentColor;
+      padding-bottom: 0.25rem;
+    }
+    footer {
+      padding: 2rem var(--pad);
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Reveal on scroll */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.9s ease, transform 0.9s ease; }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      nav ul { gap: 1rem; }
+      nav a { font-size: 0.8rem; }
+      .about { grid-template-columns: 1fr; }
+      .services li { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .card, .cta { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <header class="nav">
+    <a class="logo" href="#top">HA.</a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow">Freelance Web Developer</p>
+      <h1>Henda<span>Abdelhamid</span></h1>
+      <p>I build fast, clean and memorable websites and web applications, from first idea to launch.</p>
+      <a class="cta" href="#contact">Let's work together
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title reveal"><small>Selected work</small>Projects</h2>
+      <div class="projects-grid">
+        <article class="card placeholder reveal">
+          <span class="index">01</span>
+          <div>
+            <h3>Coming soon</h3>
+            <p>Case studies will be added here.</p>
+          </div>
+        </article>
+        <article class="card placeholder reveal">
+          <span class="index">02</span>
+          <div>
+            <h3>Coming soon</h3>
+            <p>Case studies will be added here.</p>
+          </div>
+        </article>
+        <article class="card placeholder reveal">
+          <span class="index">03</span>
+          <div>
+            <h3>Coming soon</h3>
+            <p>Case studies will be added here.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="services">
+      <h2 class="section-title reveal"><small>What I do</small>Services</h2>
+      <ul class="services">
+        <li class="reveal">
+          <span class="num">01</span>
+          <div>
+            <h3>Web development</h3>
+            <p>Responsive, performant websites built with modern tools.</p>
+          </div>
+        </li>
+        <li class="reveal">
+          <span class="num">02</span>
+          <div>
+            <h3>Web applications</h3>
+            <p>Custom interfaces and features tailored to your product.</p>
+          </div>
+        </li>
+        <li class="reveal">
+          <span class="num">03</span>
+          <div>
+            <h3>Maintenance & improvements</h3>
+            <p>Ongoing updates, optimisation and support after launch.</p>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title reveal"><small>About</small>Who I am</h2>
+      <div class="about">
+        <p class="big reveal">Clean code, thoughtful design, and websites that actually work for the people who use them.</p>
+        <div class="body reveal">
+          <p>I'm Henda, a freelance web developer focused on building fast, accessible and well-crafted interfaces for clients who care about quality.</p>
+          <p>I work from idea to deployment, and I'm happy to take on projects of any size.</p>
+          <div class="stack" aria-label="Technologies">
+            <span>HTML</span><span>CSS</span><span>JavaScript</span><span>React</span><span>Responsive design</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <h2 class="reveal">Let's build<br />something.</h2>
+      <a class="mail reveal" href="mailto:hndhamid11@gmail.com">hndhamid11@gmail.com</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>© <span id="year"></span> Henda Abdelhamid</span>
+    <span>Built for Vercel</span>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Cursor glow
+    const glow = document.querySelector(".glow");
+    window.addEventListener("pointermove", (e) => {
+      glow.style.setProperty("--x", e.clientX + "px");
+      glow.style.setProperty("--y", e.clientY + "px");
+    }, { passive: true });
+
+    // Reveal on scroll
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+  </script>
+</body>
+</html>
